@@ -23,4 +23,4 @@ CHOICE = get_choice_field()
 class ConverterSerializer(Serializer):
     currency1 = ChoiceField(choices = CHOICE)
     currency2 = ChoiceField(choices = CHOICE)
-    value = FloatField(min_value=1, default=1)
+    value = FloatField(min_value=1)

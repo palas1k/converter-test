@@ -32,5 +32,7 @@ class CurrencyConverter(APIView):
         cur1 = request.GET.get('from')
         cur2 = request.GET.get('to')
         value = request.GET.get('value')
+        if value == None:
+            value = 1
         data = round(get_course(cur1, cur2, value), 2)
         return Response(data=data, status=status.HTTP_200_OK)

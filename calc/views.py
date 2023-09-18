@@ -17,8 +17,8 @@ class CurrencyConverter(APIView):
     def get(self, request):
         serializer = ConverterSerializer(data=request.GET)
         serializer.is_valid(raise_exception=True)
-        cur1 = request.GET.get('from_currency')
-        cur2 = request.GET.get('to_currency')
-        value = request.GET.get('value')
+        cur1 = serializer.data['from_currency']
+        cur2 = serializer.data['to_currency']
+        value = serializer.data['value']
         data = round(get_course(cur1, cur2, value), 2)
         return Response(data=data, status=status.HTTP_200_OK)

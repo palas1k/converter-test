@@ -1,11 +1,13 @@
 import json
 import requests
+from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import status
+from rest_framework.fields import ChoiceField
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from calc.serializers import ConverterSerializer
+from calc.serializers import ConverterSerializer, get_choice_field
 
 
 def get_currence_price(ticker):
@@ -27,10 +29,10 @@ class CurrencyConverter(APIView):
     serializer_class = ConverterSerializer
 
     @extend_schema(
-        parameters=[OpenApiParameter('from', str), OpenApiParameter('to', str), OpenApiParameter('value', float)])
+        parameters=[OpenApiParameter('from', enum=get_choice_field()), OpenApiParameter('to', enum=get_choice_field()), OpenApiParameter('value', float)])
     def get(self, request):
-        cur1 = request.GET.get('from')
-        cur2 = request.GET.get('to')
+        cur1 = request.GET.get('from').upper()
+        cur2 = request.GET.get('to').upper()
         value = request.GET.get('value')
         if value == None:
             value = 1
